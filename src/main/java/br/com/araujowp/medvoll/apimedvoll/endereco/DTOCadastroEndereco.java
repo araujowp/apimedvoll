@@ -1,6 +1,26 @@
 package br.com.araujowp.medvoll.apimedvoll.endereco;
 
-public record DTOCadastroEndereco(String logradouro, String bairro, String cep, String cidade, String uf,
-		String complemento, String numero) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
+public record DTOCadastroEndereco(
+		
+		@NotBlank
+		String logradouro,//
+		
+		@NotBlank
+		String bairro, //
+		
+		@NotBlank
+		@Pattern(regexp = "\\d{8}")
+		String cep, //
+		
+		String cidade,//
+		
+		@NotBlank
+		String uf,//
+		
+		String complemento,// 
+		String numero) {
 
 }
