@@ -3,6 +3,8 @@ package br.com.araujowp.medvoll.apimedvoll.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,18 +24,20 @@ public class MedicoController {
 
 	@Autowired
 	private MedicoRepository medicoRepository;
-	
+
 	@PostMapping
 	@Transactional
 	public void cadastrar(@RequestBody @Valid DTOCadastroMedico dto) {
-		
+
 		medicoRepository.save(new Medico(dto));
 		System.out.println(dto);
 	}
-	
+
 	@GetMapping
-	public List<DtoListagemMedico> listar(){
-		return medicoRepository.findAll().stream().map(DtoListagemMedico::new).toList();
+//	spring.data.web.pageable.page-parameter=pagina nome dos parametros podem ser mudados no aplication.properties
+//	public Page<DtoListagemMedico> listar(@PageableDefault(size=10) Pageable paginacao){
+	public Page<DtoListagemMedico> listar(Pageable paginacao) {
+		return medicoRepository.findAll(paginacao).map(DtoListagemMedico::new);
 	}
-	
+
 }
